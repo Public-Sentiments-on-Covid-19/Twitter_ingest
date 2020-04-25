@@ -1,0 +1,26 @@
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class TweetsMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+    private static final int MISSING = 9999;
+
+    @Override
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+        String line = value.toString();
+        String row[]= line.split(",");
+        //row[1] is date of post
+        //row[2] is sentiment value of post
+
+        context.write(new Text(row[1]), new IntWritable(String.toInteger(row[2])));
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e);
+        }
+    }}
+
+
