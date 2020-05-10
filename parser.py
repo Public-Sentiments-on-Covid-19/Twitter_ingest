@@ -2,7 +2,7 @@ import csv
 tsv_file = open("full_dataset-clean.tsv")
 read_tsv = csv.reader(tsv_file, delimiter="\t")
 count=0
-file1=open("data/tweet_id.txt","a")
+file1=open("data/tweet_idno.txt","a")
 day="2020-01-01"
 try:
     for row in read_tsv:
