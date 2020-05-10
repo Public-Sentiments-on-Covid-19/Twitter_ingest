@@ -10,14 +10,16 @@ val df = (spark.read.format("csv")
   //loads ALL data
   // .load("reddit_Data_H/reddit_Data/*.csv")
   //loads smaller sample data (1-20, 1-21, 3-18)
-  .load("input/tweet_sentiment1.csv")
+  .load("input/tweet_sentiment2.csv")
   )
 
-var splitDF = (df.withColumn("Date",col("Date"))
-  .withColumn("Tweet_VS",col("Tweet_VS").cast(DoubleType)))
+var splitDF = (df.withColumn("Tweet_VS",col("Tweet_VS").cast(DoubleType))
+  .withColumn("Tweet",col("tweet"))
+    .withColumn("Day", col("Date Published")))
+
 // splitDF.show()
 
-val titleDF = splitDF.select("Tweet_VS", "Tweet","Date").dropDuplicates()
+val titleDF = splitDF.select("Tweet_VS","Day").dropDuplicates()
 // titleDF.show(100)
 
 // //Get how many (qualifying - 100 upvotes) posts are posted each day
