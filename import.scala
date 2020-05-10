@@ -10,16 +10,15 @@ val df = (spark.read.format("csv")
   //loads ALL data
   // .load("reddit_Data_H/reddit_Data/*.csv")
   //loads smaller sample data (1-20, 1-21, 3-18)
-  .load("input/tweet_sentiment2.csv")
+  .load("input/tweet_sentiment5.csv")
   )
 
 var splitDF = (df.withColumn("Tweet_VS",col("Tweet_VS").cast(DoubleType))
-  .withColumn("Tweet",col("tweet"))
-    .withColumn("Day", col("Date Published")))
+  .withColumn("Date", to_date($"Date", "yyyy-MM-dd")).drop("go"))
 
 // splitDF.show()
 
-val titleDF = splitDF.select("Tweet_VS","Day").dropDuplicates()
+//val titleDF = splitDF.select("Tweet_VS","Dates").dropDuplicates()
 // titleDF.show(100)
 
 // //Get how many (qualifying - 100 upvotes) posts are posted each day
@@ -28,6 +27,8 @@ val titleDF = splitDF.select("Tweet_VS","Day").dropDuplicates()
 // postCountsDayDF.show()
 
 //get the average qualifying post tweet sentiments each day
-val averageTweetVSDayDF = (titleDF.groupBy("Date")
-  .avg("Tweet_VS"))
+val averageTweetVSDayDF = (splitDF.groupBy("Date")
+  .agg(
+    avg("Tweet_VS") as ("avgTweetVS")
+  ))
 averageTweetVSDayDF.show()

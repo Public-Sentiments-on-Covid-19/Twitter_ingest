@@ -4,13 +4,13 @@ d={"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05"}
 reader=jsonlines.open("data/tweet_idno4.jsonl")
 count=0
 analyzer=SentimentIntensityAnalyzer()
-writer=csv.writer(open('tweet_sentiment2.csv', 'w', encoding='utf-8', newline=''))
-writer.writerow(["Tweet_VS","tweet","Date Published"])
+writer=csv.writer(open('tweet_sentiment5.csv', 'w', encoding='utf-8', newline=''))
+writer.writerow(["Tweet_VS","Date","go"])
 for obj in reader:
     # obj=reader.read()
     vs=analyzer.polarity_scores(obj['full_text'])
     time=obj['created_at'].split()
-    writer.writerow([vs['compound'],obj['full_text'],"2020-"+d[time[1]]+"-"+time[2]])
+    writer.writerow([vs['compound'],"2020-"+d[time[1]]+"-"+time[2],"go"])
     # x=float(vs['compound'])
     #
     # print(time)
